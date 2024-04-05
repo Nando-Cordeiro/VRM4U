@@ -12,6 +12,7 @@
 #include "E:/Unreal/VRM4U_Plugin/Plugins/VRM4U/Source/VRM4U/Private/VrmAnimInstanceCopy.cpp"
 #include "E:/Unreal/VRM4U_Plugin/Plugins/VRM4U/Source/VRM4U/Private/VrmAnimInstanceRetargetFromMannequin.cpp"
 #include "E:/Unreal/VRM4U_Plugin/Plugins/VRM4U/Source/VRM4U/Private/VrmAssetListObject.cpp"
+#include "E:/Unreal/VRM4U_Plugin/Plugins/VRM4U/Source/VRM4U/Private/VrmAudioFreqAnalysis.cpp"
 #include "E:/Unreal/VRM4U_Plugin/Plugins/VRM4U/Source/VRM4U/Private/VrmBPFunctionLibrary.cpp"
 #include "E:/Unreal/VRM4U_Plugin/Plugins/VRM4U/Source/VRM4U/Private/VrmCameraCheckComponent.cpp"
 #include "E:/Unreal/VRM4U_Plugin/Plugins/VRM4U/Source/VRM4U/Private/VrmCineCameraActor.cpp"

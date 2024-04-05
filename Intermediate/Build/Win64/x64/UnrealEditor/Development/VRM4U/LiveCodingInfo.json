@@ -20,6 +20,7 @@
 			"VrmAssetListObject.gen.cpp.obj"
 		],
 		"Module.VRM4U.2.cpp.obj": [
+			"VrmAudioFreqAnalysis.gen.cpp.obj",
 			"VrmBPFunctionLibrary.gen.cpp.obj",
 			"VrmCameraCheckComponent.gen.cpp.obj",
 			"VrmCineCameraActor.gen.cpp.obj",
@@ -58,6 +59,7 @@
 			"VrmAnimInstanceCopy.cpp.obj",
 			"VrmAnimInstanceRetargetFromMannequin.cpp.obj",
 			"VrmAssetListObject.cpp.obj",
+			"VrmAudioFreqAnalysis.cpp.obj",
 			"VrmBPFunctionLibrary.cpp.obj",
 			"VrmCameraCheckComponent.cpp.obj",
 			"VrmCineCameraActor.cpp.obj",
