@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Components/AudioComponent.h"
 #include "VrmAudioFreqAnalysis.generated.h"
 
 
@@ -17,6 +18,7 @@ public:
 	UVrmAudioFreqAnalysis();
 
 	UPROPERTY(EditAnywhere) UAudioComponent* AudioComponent;
+	UPROPERTY(EditAnywhere) USoundSubmix* OurSubmix;
 
 	UPROPERTY(EditAnywhere) int EnvelopeFollowerAttackTime;
 	UPROPERTY(EditAnywhere) int EnvelopeFollowerReleaseTime;
@@ -25,6 +27,9 @@ public:
 	UPROPERTY(EditAnywhere) float PercentRange;
 	UPROPERTY(EditAnywhere) ASkeletalMeshActor* Character;
 	UFUNCTION(BlueprintCallable) void StartAnalysis(ASkeletalMeshActor* SceneCharacter, USoundBase* Dialogue);
+
+	void OnAudioPlayStateChanged(EAudioComponentPlayState PlayState) const;
+	
 
 protected:
 	// Called when the game starts
