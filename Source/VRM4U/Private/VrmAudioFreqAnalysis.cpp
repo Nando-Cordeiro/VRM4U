@@ -62,6 +62,9 @@ void UVrmAudioFreqAnalysis::EnvelopeFollowerDelegate() const
 
 FOnSubmixEnvelopeBP UVrmAudioFreqAnalysis::EnvelopeFollowerDelegateBP(const TArray<float>& Envelope)
 {
+	//
+	//This entire if statement can maybe be refactored
+	//
 	if (Envelope.IsEmpty())
 	{
 		UE_LOG(LogVrmAudioFreqAnalysis, Verbose,TEXT("Envelope Array is empty"));
@@ -87,7 +90,19 @@ FOnSubmixEnvelopeBP UVrmAudioFreqAnalysis::EnvelopeFollowerDelegateBP(const TArr
 
 void UVrmAudioFreqAnalysis::EnvelopeChunkIndexComparison()
 {
-	
+	//compare the values of index 0 and 4 of the envelope chunk
+	if (EnvelopeChunk[4] > EnvelopeChunk[0]) {
+		// do closed / open counter setting here
+		// set morph target close function should go here
+		// Begin F group comparison after this
+	} else if (EnvelopeChunk[4] == EnvelopeChunk[0]) {
+		UE_LOG(LogVrmAudioFreqAnalysis, Verbose,TEXT("Envelope Chunk Index 4 is equal to Index 0"));
+	} else {
+		// Index 4 is less than Index 0 here
+		
+		// do open / closed counter setting here
+		// set morph target close function should go here
+	}
 }
 
 
