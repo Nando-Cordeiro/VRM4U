@@ -57,7 +57,7 @@ void UVrmAudioFreqAnalysis::EnvelopeFollowerDelegate() const
 {
 	UAudioMixerBlueprintLibrary::StartAnalyzingOutput(OurSubmix, OurSubmix, EFFTSize::Max, EFFTPeakInterpolationMethod::Linear, EFFTWindowType::Hann, 0.0f, EAudioSpectrumType::MagnitudeSpectrum);
 	OurSubmix->StartEnvelopeFollowing(OurSubmix);
-	OurSubmix->AddEnvelopeFollowerDelegate(OurSubmix, EnvelopeFollowerDelegateBP());
+	OurSubmix->AddEnvelopeFollowerDelegate(OurSubmix, EnvelopeFollowerDelegateBP(Envelope));
 }
 
 FOnSubmixEnvelopeBP UVrmAudioFreqAnalysis::EnvelopeFollowerDelegateBP(const TArray<float>& Envelope)
@@ -68,12 +68,26 @@ FOnSubmixEnvelopeBP UVrmAudioFreqAnalysis::EnvelopeFollowerDelegateBP(const TArr
 	}
 	else
 	{
-		
+		//Add envelopes to chunk
+		if (EnvelopeChunk.Num() == 5)
+		{
+			//If the array size is already 5 when going to add a new one, remove the first element
+			EnvelopeChunk.RemoveAt(0);
+			EnvelopeChunk.Add(Envelope[0]);
+			EnvelopeChunkIndexComparison();
+		}
+		else
+		{
+			//add index 0 of envelope to envelope chunk
+			EnvelopeChunk.Add(Envelope[0]);
+		}
 	}
-
-
-		
 	return FOnSubmixEnvelopeBP();
+}
+
+void UVrmAudioFreqAnalysis::EnvelopeChunkIndexComparison()
+{
+	
 }
 
 

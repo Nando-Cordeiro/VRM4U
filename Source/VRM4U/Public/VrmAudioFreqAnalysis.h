@@ -31,6 +31,12 @@ public:
 	void OnAudioPlayStateChanged(EAudioComponentPlayState PlayState) const;
 	void EnvelopeFollowerDelegate() const;
 	static FOnSubmixEnvelopeBP EnvelopeFollowerDelegateBP(const TArray<float>& Envelope);
+
+	static TArray<float> Envelope;
+	static TArray<float> EnvelopeChunk;
+
+	static void EnvelopeChunkIndexComparison();
+	
 	
 
 protected:
