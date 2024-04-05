@@ -1,0 +1,43 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\vrm4ucapture\\module.vrm4ucapture.cpp",
+        "ProvidedModule": "",
+        "PCH": "e:\\unreal\\vrm4u_plugin\\intermediate\\build\\win64\\x64\\vrm4u_plugineditor\\development\\unrealed\\sharedpch.unrealed.cpp20.h.pch",
+        "Includes": [
+            "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\vrm4ucapture\\definitions.vrm4ucapture.h",
+            "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\intermediate\\build\\win64\\unrealeditor\\inc\\vrm4ucapture\\uht\\vrm4ucapture.init.gen.cpp",
+            "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\intermediate\\build\\win64\\unrealeditor\\inc\\vrm4ucapture\\uht\\vrmcapturemanager.gen.cpp",
+            "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\source\\vrm4ucapture\\public\\vrmcapturemanager.h",
+            "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\intermediate\\build\\win64\\unrealeditor\\inc\\vrm4ucapture\\uht\\vrmcapturemanager.generated.h",
+            "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\intermediate\\build\\win64\\unrealeditor\\inc\\vrm4ucapture\\uht\\vrmmocopireceiver.gen.cpp",
+            "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\source\\vrm4ucapture\\public\\vrmmocopireceiver.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\coreuobject\\public\\uobject\\noexporttypes.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\coreuobject\\public\\uobject\\propertyaccessutil.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\coreuobject\\public\\serialization\\testundeclaredscriptstructobjectreferences.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\core\\public\\math\\unitconversion.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\core\\public\\math\\unitconversion.inl",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\core\\public\\internationalization\\polyglottextdata.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\networking\\public\\interfaces\\ipv4\\ipv4address.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\networking\\public\\interfaces\\ipv4\\ipv4subnetmask.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\networking\\public\\interfaces\\ipv4\\ipv4endpoint.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\sockets\\public\\socketsubsystem.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\sockets\\public\\addressinfotypes.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\networking\\public\\common\\udpsocketreceiver.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\core\\public\\serialization\\arrayreader.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\sockets\\public\\sockets.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\networking\\public\\common\\udpsocketbuilder.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\core\\public\\misc\\engineversioncomparison.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\core\\public\\containers\\ringbuffer.h",
+            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\core\\public\\templates\\makesigned.h",
+            "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\intermediate\\build\\win64\\unrealeditor\\inc\\vrm4ucapture\\uht\\vrmmocopireceiver.generated.h",
+            "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\source\\vrm4ucapture\\private\\vrm4ucapture.cpp",
+            "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\source\\vrm4ucapture\\private\\vrm4ucapture.h",
+            "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\source\\vrm4ucapture\\private\\vrm4ucapturelog.h",
+            "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\source\\vrm4ucapture\\private\\vrmcapturemanager.cpp",
+            "e:\\unreal\\vrm4u_plugin\\plugins\\vrm4u\\source\\vrm4ucapture\\private\\vrmmocopireceiver.cpp"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

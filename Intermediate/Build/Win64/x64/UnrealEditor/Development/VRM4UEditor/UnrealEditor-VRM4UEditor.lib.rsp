@@ -1,0 +1,12 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-VRM4UEditor.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"E:\Unreal\VRM4U_Plugin\Intermediate\Build\Win64\x64\VRM4U_PluginEditor\Development\UnrealEd\SharedPCH.UnrealEd.Cpp20.h.obj"
+"E:\Unreal\VRM4U_Plugin\Plugins\VRM4U\Intermediate\Build\Win64\x64\UnrealEditor\Development\VRM4UEditor\Module.VRM4UEditor.cpp.obj"
+"E:\Unreal\VRM4U_Plugin\Plugins\VRM4U\Intermediate\Build\Win64\x64\UnrealEditor\Development\VRM4UEditor\Default.rc2.res"
+/OUT:"E:\Unreal\VRM4U_Plugin\Plugins\VRM4U\Intermediate\Build\Win64\x64\UnrealEditor\Development\VRM4UEditor\UnrealEditor-VRM4UEditor.lib"
