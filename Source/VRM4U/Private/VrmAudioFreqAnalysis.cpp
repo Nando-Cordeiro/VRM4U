@@ -27,7 +27,7 @@ void UVrmAudioFreqAnalysis::StartAnalysis(ASkeletalMeshActor* SceneCharacter, US
 	AudioComponent->SetSound(Dialogue);
 	OurSubmix->EnvelopeFollowerAttackTime = EnvelopeFollowerAttackTime;
 	OurSubmix->EnvelopeFollowerReleaseTime = EnvelopeFollowerReleaseTime;
-	//... go to envelope follower delegate after this
+	EnvelopeFollowerDelegate();
 }
 
 void UVrmAudioFreqAnalysis::OnAudioPlayStateChanged(EAudioComponentPlayState PlayState) const
@@ -35,7 +35,7 @@ void UVrmAudioFreqAnalysis::OnAudioPlayStateChanged(EAudioComponentPlayState Pla
 	switch (PlayState)
 	{
 		case PlayState == EAudioComponentPlayState::Playing:
-			//... go to envelope follower delegate for this
+			EnvelopeFollowerDelegate();
 			break;
 		case PlayState == EAudioComponentPlayState::Stopped:
 			OurSubmix->StopEnvelopeFollowing(OurSubmix);
@@ -52,6 +52,30 @@ void UVrmAudioFreqAnalysis::OnAudioPlayStateChanged(EAudioComponentPlayState Pla
 			break;
 	}
 }
+
+void UVrmAudioFreqAnalysis::EnvelopeFollowerDelegate() const
+{
+	UAudioMixerBlueprintLibrary::StartAnalyzingOutput(OurSubmix, OurSubmix, EFFTSize::Max, EFFTPeakInterpolationMethod::Linear, EFFTWindowType::Hann, 0.0f, EAudioSpectrumType::MagnitudeSpectrum);
+	OurSubmix->StartEnvelopeFollowing(OurSubmix);
+	OurSubmix->AddEnvelopeFollowerDelegate(OurSubmix, EnvelopeFollowerDelegateBP());
+}
+
+FOnSubmixEnvelopeBP UVrmAudioFreqAnalysis::EnvelopeFollowerDelegateBP(const TArray<float>& Envelope)
+{
+	if (Envelope.IsEmpty())
+	{
+		UE_LOG(LogVrmAudioFreqAnalysis, Verbose,TEXT("Envelope Array is empty"));
+	}
+	else
+	{
+		
+	}
+
+
+		
+	return FOnSubmixEnvelopeBP();
+}
+
 
 
 // Called when the game starts

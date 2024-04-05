@@ -29,6 +29,8 @@ public:
 	UFUNCTION(BlueprintCallable) void StartAnalysis(ASkeletalMeshActor* SceneCharacter, USoundBase* Dialogue);
 
 	void OnAudioPlayStateChanged(EAudioComponentPlayState PlayState) const;
+	void EnvelopeFollowerDelegate() const;
+	static FOnSubmixEnvelopeBP EnvelopeFollowerDelegateBP(const TArray<float>& Envelope);
 	
 
 protected:
