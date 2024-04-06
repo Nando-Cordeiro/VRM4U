@@ -132,7 +132,6 @@ void UVrmAudioFreqAnalysis::FGroupAnalysis(USoundSubmix* SubmixToAnalyze)
 }
 
 void UVrmAudioFreqAnalysis::F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze,
-	TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies)
 	TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies, USoundSubmix* SubmixToAnalyze)
 {
 	SpectralBandSettings(300.0f, 1000.0f, F1FrequenciesToAnalyze);
