@@ -24,19 +24,23 @@ public:
 	UPROPERTY(EditAnywhere) int EnvelopeFollowerReleaseTime;
 	UPROPERTY(EditAnywhere) int OpenCounterThreshold;
 	UPROPERTY(EditAnywhere) int ClosedCounterThreshold;
+	static int OpenCounter;
+	static int ClosedCounter;
 	UPROPERTY(EditAnywhere) float PercentRange;
 	UPROPERTY(EditAnywhere) ASkeletalMeshActor* Character;
 	UFUNCTION(BlueprintCallable) void StartAnalysis(ASkeletalMeshActor* SceneCharacter, USoundBase* Dialogue);
 
 	void OnAudioPlayStateChanged(EAudioComponentPlayState PlayState) const;
 	void EnvelopeFollowerDelegate() const;
-	static FOnSubmixEnvelopeBP EnvelopeFollowerDelegateBP(const TArray<float>& Envelope);
+	 FOnSubmixEnvelopeBP EnvelopeFollowerDelegateBP(const TArray<float>& Envelope) const;
 
 	static TArray<float> Envelope;
 	static TArray<float> EnvelopeChunk;
+	inline static const TArray<FName> MouthMorphTargetNames = { FName("Fcl_MTH_A"), FName("Fcl_MTH_E"), FName("Fcl_MTH_I"), FName("Fcl_MTH_O"), FName("Fcl_MTH_U") };
 
-	static void EnvelopeChunkIndexComparison();
-	
+	 void EnvelopeChunkIndexComparison() const;
+	 void CounterFunction(int OppositeCounter, int CurrentCounter, int CurrentCounterThreshold) const;
+	void SetMorphTargetsClosed() const;
 	
 
 protected:

@@ -4,6 +4,7 @@
 #include "VrmAudioFreqAnalysis.h"
 
 #include "AudioMixerBlueprintLibrary.h"
+#include "Animation/SkeletalMeshActor.h"
 #include "Components/AudioComponent.h"
 #include "Runtime/TraceLog/standalone_epilogue.h"
 #include "Sound/SoundSubmix.h"
@@ -60,7 +61,7 @@ void UVrmAudioFreqAnalysis::EnvelopeFollowerDelegate() const
 	OurSubmix->AddEnvelopeFollowerDelegate(OurSubmix, EnvelopeFollowerDelegateBP(Envelope));
 }
 
-FOnSubmixEnvelopeBP UVrmAudioFreqAnalysis::EnvelopeFollowerDelegateBP(const TArray<float>& Envelope)
+FOnSubmixEnvelopeBP UVrmAudioFreqAnalysis::EnvelopeFollowerDelegateBP(const TArray<float>& Envelope) const
 {
 	//
 	//This entire if statement can maybe be refactored
@@ -88,23 +89,39 @@ FOnSubmixEnvelopeBP UVrmAudioFreqAnalysis::EnvelopeFollowerDelegateBP(const TArr
 	return FOnSubmixEnvelopeBP();
 }
 
-void UVrmAudioFreqAnalysis::EnvelopeChunkIndexComparison()
+void UVrmAudioFreqAnalysis::EnvelopeChunkIndexComparison() const
 {
-	//compare the values of index 0 and 4 of the envelope chunk
+	/* Compare the values of index 0 and 4 of the envelope chunk,
+	 * it closes the morph targets if it's equal or above the threshold too. */
 	if (EnvelopeChunk[4] > EnvelopeChunk[0]) {
-		// do closed / open counter setting here
-		// set morph target close function should go here
+		CounterFunction(ClosedCounter, OpenCounter, OpenCounterThreshold);
 		// Begin F group comparison after this
+		
 	} else if (EnvelopeChunk[4] == EnvelopeChunk[0]) {
 		UE_LOG(LogVrmAudioFreqAnalysis, Verbose,TEXT("Envelope Chunk Index 4 is equal to Index 0"));
 	} else {
 		// Index 4 is less than Index 0 here
-		
-		// do open / closed counter setting here
-		// set morph target close function should go here
+		CounterFunction(OpenCounter, ClosedCounter, ClosedCounterThreshold);
 	}
 }
 
+void UVrmAudioFreqAnalysis::CounterFunction(int OppositeCounter, int CurrentCounter, int CurrentCounterThreshold) const
+{
+	OppositeCounter = 0;
+	CurrentCounter++;
+	if (CurrentCounter >= CurrentCounterThreshold)
+	{
+		SetMorphTargetsClosed();
+	}
+}
+
+void UVrmAudioFreqAnalysis::SetMorphTargetsClosed() const
+{
+	for (const FName& MorphTargetName : MouthMorphTargetNames)
+	{
+	Character->GetSkeletalMeshComponent()->SetMorphTarget(MorphTargetName, 0.0f, true);
+	}
+}
 
 
 // Called when the game starts
