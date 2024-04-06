@@ -24,6 +24,7 @@ UVrmAudioFreqAnalysis::UVrmAudioFreqAnalysis()
 
 void UVrmAudioFreqAnalysis::StartAnalysis(ASkeletalMeshActor* SceneCharacter, USoundBase* Dialogue)
 {
+	//Getting the UPROPERTY values and setting them to the variables
 	Character = SceneCharacter;
 	AudioComponent->SetSound(Dialogue);
 	OurSubmix->EnvelopeFollowerAttackTime = EnvelopeFollowerAttackTime;
@@ -82,7 +83,8 @@ FOnSubmixEnvelopeBP UVrmAudioFreqAnalysis::EnvelopeFollowerDelegateBP(const TArr
 		}
 		else
 		{
-			//add index 0 of envelope to envelope chunk
+			//add index 0 of envelope to envelope chunk, really only called at the beginning
+			//of the program when the array hasn't reached a size of 5 yet
 			EnvelopeChunk.Add(Envelope[0]);
 		}
 	}
@@ -96,7 +98,7 @@ void UVrmAudioFreqAnalysis::EnvelopeChunkIndexComparison() const
 	if (EnvelopeChunk[4] > EnvelopeChunk[0]) {
 		CounterFunction(ClosedCounter, OpenCounter, OpenCounterThreshold);
 		// Begin F group comparison after this
-		
+		FGroupAnalysis();
 	} else if (EnvelopeChunk[4] == EnvelopeChunk[0]) {
 		UE_LOG(LogVrmAudioFreqAnalysis, Verbose,TEXT("Envelope Chunk Index 4 is equal to Index 0"));
 	} else {
@@ -121,6 +123,22 @@ void UVrmAudioFreqAnalysis::SetMorphTargetsClosed() const
 	{
 	Character->GetSkeletalMeshComponent()->SetMorphTarget(MorphTargetName, 0.0f, true);
 	}
+}
+
+void UVrmAudioFreqAnalysis::FGroupAnalysis()
+{
+	F1FrequencyAnalysis(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, F1LargestFrequencies);
+	F2FrequencyAnalysis(F2FrequenciesToAnalyze, F2MagnitudesOfFrequencies, F2LargestFrequencies);
+}
+
+void UVrmAudioFreqAnalysis::F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze,
+	TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies)
+{
+}
+
+void UVrmAudioFreqAnalysis::F2FrequencyAnalysis(TArray<float> FrequenciesToAnalyze,
+	TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies)
+{
 }
 
 

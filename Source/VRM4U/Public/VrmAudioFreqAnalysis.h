@@ -54,8 +54,16 @@ public:
 	// maybe not needed
 	static TArray<TArray<float>> ArrayOfF1F2Arrays;
 
-	void F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies) const;
-	///... F2 version here too
+	// This is the "sequence node" in the BP graph
+	static void FGroupAnalysis();
+	static void F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies);
+	static void F2FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies);
+	// whatever's in the collapsed graph goes here
+	
+	// Operations that will be done during each F Analysis
+	void GetMagForFreq(TArray<float> FrequenciesToAnalyze) const;
+	void MakeFreqMagMap(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies) const;
+	// Remember to make the 1-2 extra functions that only F1 does 
 
 	
 protected:
