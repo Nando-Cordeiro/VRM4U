@@ -41,8 +41,23 @@ public:
 	 void EnvelopeChunkIndexComparison() const;
 	 void CounterFunction(int OppositeCounter, int CurrentCounter, int CurrentCounterThreshold) const;
 	void SetMorphTargetsClosed() const;
-	
 
+	static TArray<float> F1FrequenciesToAnalyze;
+	static TArray<float> F1MagnitudesOfFrequencies;
+	static TArray<float> F1LargestFrequencies;
+	
+	static TArray<float> F2FrequenciesToAnalyze;
+	static TArray<float> F2MagnitudesOfFrequencies;
+	static TArray<float> F2LargestFrequencies;
+
+	//Make a TArray of TArray<float>
+	// maybe not needed
+	static TArray<TArray<float>> ArrayOfF1F2Arrays;
+
+	void F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies) const;
+	///... F2 version here too
+
+	
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
