@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Components/AudioComponent.h"
+#include "AudioMixerBlueprintLibrary.h"
 #include "VrmAudioFreqAnalysis.generated.h"
+
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -55,13 +57,14 @@ public:
 	static TArray<TArray<float>> ArrayOfF1F2Arrays;
 
 	// This is the "sequence node" in the BP graph
-	static void FGroupAnalysis();
-	static void F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies);
+	static void FGroupAnalysis(USoundSubmix* SubmixToAnalyze);
+	static void F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies, USoundSubmix* SubmixToAnalyze);
 	static void F2FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies);
 	// whatever's in the collapsed graph goes here
 	
 	// Operations that will be done during each F Analysis
-	void GetMagForFreq(TArray<float> FrequenciesToAnalyze) const;
+	static void SpectralBandSettings(float InMinFreq, float InMaxFreq, TArray<float>& FrequenciesToAnalyze);
+	static void GetMagForFreq(const TArray<float>& FrequenciesToAnalyze, const TArray<float>& MagnitudesOfFrequencies, USoundSubmix* SubmixToAnalyze);
 	void MakeFreqMagMap(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies) const;
 	// Remember to make the 1-2 extra functions that only F1 does 
 

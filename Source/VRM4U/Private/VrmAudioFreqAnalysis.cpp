@@ -98,7 +98,7 @@ void UVrmAudioFreqAnalysis::EnvelopeChunkIndexComparison() const
 	if (EnvelopeChunk[4] > EnvelopeChunk[0]) {
 		CounterFunction(ClosedCounter, OpenCounter, OpenCounterThreshold);
 		// Begin F group comparison after this
-		FGroupAnalysis();
+		FGroupAnalysis(OurSubmix);
 	} else if (EnvelopeChunk[4] == EnvelopeChunk[0]) {
 		UE_LOG(LogVrmAudioFreqAnalysis, Verbose,TEXT("Envelope Chunk Index 4 is equal to Index 0"));
 	} else {
@@ -125,21 +125,52 @@ void UVrmAudioFreqAnalysis::SetMorphTargetsClosed() const
 	}
 }
 
-void UVrmAudioFreqAnalysis::FGroupAnalysis()
+void UVrmAudioFreqAnalysis::FGroupAnalysis(USoundSubmix* SubmixToAnalyze)
 {
-	F1FrequencyAnalysis(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, F1LargestFrequencies);
+	F1FrequencyAnalysis(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, F1LargestFrequencies, SubmixToAnalyze);
 	F2FrequencyAnalysis(F2FrequenciesToAnalyze, F2MagnitudesOfFrequencies, F2LargestFrequencies);
 }
 
 void UVrmAudioFreqAnalysis::F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze,
 	TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies)
+	TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies, USoundSubmix* SubmixToAnalyze)
 {
+	SpectralBandSettings(300.0f, 1000.0f, F1FrequenciesToAnalyze);
+	GetMagForFreq(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, SubmixToAnalyze);
 }
 
 void UVrmAudioFreqAnalysis::F2FrequencyAnalysis(TArray<float> FrequenciesToAnalyze,
 	TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies)
 {
 }
+
+//
+// Operations that will be done during each F Analysis
+//
+void UVrmAudioFreqAnalysis::SpectralBandSettings(float InMinFreq, float InMaxFreq, TArray<float>& FrequenciesToAnalyze)
+{
+	for (const FSoundSubmixSpectralAnalysisBandSettings SettingStruct: 	UAudioMixerBlueprintLibrary::MakeFullSpectrumSpectralAnalysisBandSettings(30, InMinFreq, InMaxFreq, 10, 10))
+	{
+		//Add the band frequency to the array
+		FrequenciesToAnalyze.Add(SettingStruct.BandFrequency);
+	}
+}
+
+void UVrmAudioFreqAnalysis::GetMagForFreq(const TArray<float>& FrequenciesToAnalyze, const TArray<float>& MagnitudesOfFrequencies, USoundSubmix* SubmixToAnalyze)
+{
+	TArray<float> Magnitudes;
+	UAudioMixerBlueprintLibrary::GetMagnitudeForFrequencies(SubmixToAnalyze, FrequenciesToAnalyze, Magnitudes, SubmixToAnalyze);
+	//Set magnitudes of frequencies equal to the magnitudes array
+	Magnitudes = MagnitudesOfFrequencies;
+}
+
+
+
+
+
+
+
+
 
 
 // Called when the game starts
