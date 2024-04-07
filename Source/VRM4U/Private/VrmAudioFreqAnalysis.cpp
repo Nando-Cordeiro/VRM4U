@@ -6,7 +6,6 @@
 #include "AudioMixerBlueprintLibrary.h"
 #include "Animation/SkeletalMeshActor.h"
 #include "Components/AudioComponent.h"
-#include "Runtime/TraceLog/standalone_epilogue.h"
 #include "Sound/SoundSubmix.h"
 
 
@@ -19,16 +18,35 @@ UVrmAudioFreqAnalysis::UVrmAudioFreqAnalysis()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+	// Initialize pointers to nullptr
+	Character = nullptr;
+	AudioComponent = nullptr;
+	OurSubmix = nullptr;
+	// Initialize a default value for the UPROPERTY variables
+	EnvelopeFollowerAttackTime = 100;
+	EnvelopeFollowerReleaseTime = 50;
+	OpenCounterThreshold = 2;
+	ClosedCounterThreshold = 5;
+	PercentRange = 0.33f;
+	
 }
 
 void UVrmAudioFreqAnalysis::StartAnalysis(ASkeletalMeshActor* SceneCharacter, USoundBase* Dialogue)
 {
 	//Getting the UPROPERTY values and setting them to the variables
-	Character = SceneCharacter;
-	AudioComponent->SetSound(Dialogue);
-	OurSubmix->EnvelopeFollowerAttackTime = EnvelopeFollowerAttackTime;
-	OurSubmix->EnvelopeFollowerReleaseTime = EnvelopeFollowerReleaseTime;
+	if (Character != nullptr)
+	{
+		Character = SceneCharacter;
+	}
+	if (AudioComponent != nullptr)
+	{
+		AudioComponent->SetSound(Dialogue);
+	}
+	if (OurSubmix != nullptr)
+	{
+		OurSubmix->EnvelopeFollowerAttackTime = EnvelopeFollowerAttackTime;
+		OurSubmix->EnvelopeFollowerReleaseTime = EnvelopeFollowerReleaseTime;
+	}
 	EnvelopeFollowerDelegate();
 }
 
