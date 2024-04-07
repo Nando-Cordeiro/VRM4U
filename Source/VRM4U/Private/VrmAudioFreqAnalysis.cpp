@@ -145,8 +145,10 @@ void UVrmAudioFreqAnalysis::SetMorphTargetsClosed() const
 
 void UVrmAudioFreqAnalysis::FGroupAnalysis(USoundSubmix* SubmixToAnalyze)
 {
+	// remember to clear everything of all arrays too
 	F1FrequencyAnalysis(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, F1LargestFrequencies, SubmixToAnalyze);
 	F2FrequencyAnalysis(F2FrequenciesToAnalyze, F2MagnitudesOfFrequencies, F2LargestFrequencies, SubmixToAnalyze);
+	// whatever's in the collapsed graph goes here
 }
 
 void UVrmAudioFreqAnalysis::F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze,
@@ -155,6 +157,7 @@ void UVrmAudioFreqAnalysis::F1FrequencyAnalysis(TArray<float> FrequenciesToAnaly
 	SpectralBandSettings(300.0f, 1000.0f, F1FrequenciesToAnalyze);
 	GetMagForFreq(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, SubmixToAnalyze);
 	MakeFreqMagMap(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, F1FrequencyMagnitudeMap);
+	SetF1Value(F1MagnitudesOfFrequencies, F1FrequencyMagnitudeMap);
 }
 
 void UVrmAudioFreqAnalysis::F2FrequencyAnalysis(TArray<float> FrequenciesToAnalyze,
@@ -187,13 +190,28 @@ void UVrmAudioFreqAnalysis::GetMagForFreq(const TArray<float>& FrequenciesToAnal
 
 void UVrmAudioFreqAnalysis::MakeFreqMagMap(TArray<float>& FrequenciesToAnalyze, TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap)
 {
-	//range based for loop
 	for (const float& FrequencyValue : FrequenciesToAnalyze)
 	{
 		//return the current index of the frequency array and get the corresponding in dex in the magnitudes array
 		FrequencyMagnitudeMap.Add(MagnitudesOfFrequencies[FrequenciesToAnalyze.Find(FrequencyValue)], FrequencyValue);
 	}
 }
+
+void UVrmAudioFreqAnalysis::SetF1Value(TArray<float>& MagnitudesOfFrequencies,
+	TMap<float, float>& FrequencyMagnitudeMap)
+{
+	//execute twice
+	for (int i = 0; i < 2; i++)
+	{
+		//Find the max of MagnitudesOfFrequencies, remove that index from it, and add that same value in the FrequencyMagnitudeMap
+		MagnitudesOfFrequencies.RemoveAt(MagnitudesOfFrequencies.Find(FMath::Max(MagnitudesOfFrequencies)));
+		F1LargestFrequencies.Add(FrequencyMagnitudeMap[FMath::Max(MagnitudesOfFrequencies)]);
+	}
+	//remove index 0 from F1LargestFrequencies then set F1 equal to the max of F1LargestFrequencies
+     		F1LargestFrequencies.RemoveAt(0);
+     		F1 = FMath::Max(F1LargestFrequencies);
+}
+
 //
 //
 //

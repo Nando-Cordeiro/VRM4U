@@ -48,11 +48,12 @@ public:
 	static TArray<float> F1MagnitudesOfFrequencies;
 	static TArray<float> F1LargestFrequencies;
 	static TMap<float, float> F1FrequencyMagnitudeMap;
+	static float F1;
 	
 	static TArray<float> F2FrequenciesToAnalyze;
 	static TArray<float> F2MagnitudesOfFrequencies;
-	static TArray<float> F2LargestFrequencies;
 	static TMap<float, float> F2FrequencyMagnitudeMap;
+	static float F2;
 	
 	//Make a TArray of TArray<float>
 	// maybe not needed
@@ -68,7 +69,8 @@ public:
 	static void SpectralBandSettings(float InMinFreq, float InMaxFreq, TArray<float>& FrequenciesToAnalyze);
 	static void GetMagForFreq(const TArray<float>& FrequenciesToAnalyze, const TArray<float>& MagnitudesOfFrequencies, USoundSubmix* SubmixToAnalyze);
 	static void MakeFreqMagMap(TArray<float>& FrequenciesToAnalyze, TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap);
-	// Remember to make the 1-2 extra functions that only F1 does 
+	static void SetF1Value(TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap);
+	static void SetF2Value(TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap);
 
 	
 protected:
