@@ -62,7 +62,7 @@ public:
 	// This is the "sequence node" in the BP graph
 	static void FGroupAnalysis(USoundSubmix* SubmixToAnalyze);
 	static void F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies, USoundSubmix* SubmixToAnalyze);
-	static void F2FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies, USoundSubmix* SubmixToAnalyze);
+	static void F2FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies,  USoundSubmix* SubmixToAnalyze);
 	// whatever's in the collapsed graph goes here
 	
 	// Operations that will be done during each F Analysis
@@ -70,7 +70,7 @@ public:
 	static void GetMagForFreq(const TArray<float>& FrequenciesToAnalyze, const TArray<float>& MagnitudesOfFrequencies, USoundSubmix* SubmixToAnalyze);
 	static void MakeFreqMagMap(TArray<float>& FrequenciesToAnalyze, TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap);
 	static void SetF1Value(TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap);
-	static void SetF2Value(TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap);
+	static void SetF2Value(const TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap);
 
 	
 protected:

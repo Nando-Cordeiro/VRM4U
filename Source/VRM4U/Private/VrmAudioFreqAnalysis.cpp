@@ -147,7 +147,7 @@ void UVrmAudioFreqAnalysis::FGroupAnalysis(USoundSubmix* SubmixToAnalyze)
 {
 	// remember to clear everything of all arrays too
 	F1FrequencyAnalysis(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, F1LargestFrequencies, SubmixToAnalyze);
-	F2FrequencyAnalysis(F2FrequenciesToAnalyze, F2MagnitudesOfFrequencies, F2LargestFrequencies, SubmixToAnalyze);
+	F2FrequencyAnalysis(F2FrequenciesToAnalyze, F2MagnitudesOfFrequencies, SubmixToAnalyze);
 	// whatever's in the collapsed graph goes here
 }
 
@@ -161,11 +161,12 @@ void UVrmAudioFreqAnalysis::F1FrequencyAnalysis(TArray<float> FrequenciesToAnaly
 }
 
 void UVrmAudioFreqAnalysis::F2FrequencyAnalysis(TArray<float> FrequenciesToAnalyze,
-	TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies, USoundSubmix* SubmixToAnalyze)
+	TArray<float> MagnitudesOfFrequencies, USoundSubmix* SubmixToAnalyze)
 {
 	SpectralBandSettings(1000.0f, 3000.0f, F1FrequenciesToAnalyze);
 	GetMagForFreq(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, SubmixToAnalyze);
 	MakeFreqMagMap(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, F1FrequencyMagnitudeMap);
+	SetF2Value(F1MagnitudesOfFrequencies, F1FrequencyMagnitudeMap);
 }
 
 //
@@ -197,8 +198,7 @@ void UVrmAudioFreqAnalysis::MakeFreqMagMap(TArray<float>& FrequenciesToAnalyze, 
 	}
 }
 
-void UVrmAudioFreqAnalysis::SetF1Value(TArray<float>& MagnitudesOfFrequencies,
-	TMap<float, float>& FrequencyMagnitudeMap)
+void UVrmAudioFreqAnalysis::SetF1Value(TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap)
 {
 	//execute twice
 	for (int i = 0; i < 2; i++)
@@ -208,8 +208,13 @@ void UVrmAudioFreqAnalysis::SetF1Value(TArray<float>& MagnitudesOfFrequencies,
 		F1LargestFrequencies.Add(FrequencyMagnitudeMap[FMath::Max(MagnitudesOfFrequencies)]);
 	}
 	//remove index 0 from F1LargestFrequencies then set F1 equal to the max of F1LargestFrequencies
-     		F1LargestFrequencies.RemoveAt(0);
-     		F1 = FMath::Max(F1LargestFrequencies);
+	F1LargestFrequencies.RemoveAt(0);
+	F1 = FMath::Max(F1LargestFrequencies);
+}
+
+void UVrmAudioFreqAnalysis::SetF2Value(const TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap)
+{
+	F2 = FrequencyMagnitudeMap[FMath::Max(MagnitudesOfFrequencies)];
 }
 
 //
