@@ -47,11 +47,13 @@ public:
 	static TArray<float> F1FrequenciesToAnalyze;
 	static TArray<float> F1MagnitudesOfFrequencies;
 	static TArray<float> F1LargestFrequencies;
+	static TMap<float, float> F1FrequencyMagnitudeMap;
 	
 	static TArray<float> F2FrequenciesToAnalyze;
 	static TArray<float> F2MagnitudesOfFrequencies;
 	static TArray<float> F2LargestFrequencies;
-
+	static TMap<float, float> F2FrequencyMagnitudeMap;
+	
 	//Make a TArray of TArray<float>
 	// maybe not needed
 	static TArray<TArray<float>> ArrayOfF1F2Arrays;
@@ -59,13 +61,13 @@ public:
 	// This is the "sequence node" in the BP graph
 	static void FGroupAnalysis(USoundSubmix* SubmixToAnalyze);
 	static void F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies, USoundSubmix* SubmixToAnalyze);
-	static void F2FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies);
+	static void F2FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies, USoundSubmix* SubmixToAnalyze);
 	// whatever's in the collapsed graph goes here
 	
 	// Operations that will be done during each F Analysis
 	static void SpectralBandSettings(float InMinFreq, float InMaxFreq, TArray<float>& FrequenciesToAnalyze);
 	static void GetMagForFreq(const TArray<float>& FrequenciesToAnalyze, const TArray<float>& MagnitudesOfFrequencies, USoundSubmix* SubmixToAnalyze);
-	void MakeFreqMagMap(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies) const;
+	static void MakeFreqMagMap(TArray<float>& FrequenciesToAnalyze, TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap);
 	// Remember to make the 1-2 extra functions that only F1 does 
 
 	

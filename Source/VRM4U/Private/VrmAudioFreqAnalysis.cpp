@@ -146,7 +146,7 @@ void UVrmAudioFreqAnalysis::SetMorphTargetsClosed() const
 void UVrmAudioFreqAnalysis::FGroupAnalysis(USoundSubmix* SubmixToAnalyze)
 {
 	F1FrequencyAnalysis(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, F1LargestFrequencies, SubmixToAnalyze);
-	F2FrequencyAnalysis(F2FrequenciesToAnalyze, F2MagnitudesOfFrequencies, F2LargestFrequencies);
+	F2FrequencyAnalysis(F2FrequenciesToAnalyze, F2MagnitudesOfFrequencies, F2LargestFrequencies, SubmixToAnalyze);
 }
 
 void UVrmAudioFreqAnalysis::F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze,
@@ -154,11 +154,15 @@ void UVrmAudioFreqAnalysis::F1FrequencyAnalysis(TArray<float> FrequenciesToAnaly
 {
 	SpectralBandSettings(300.0f, 1000.0f, F1FrequenciesToAnalyze);
 	GetMagForFreq(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, SubmixToAnalyze);
+	MakeFreqMagMap(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, F1FrequencyMagnitudeMap);
 }
 
 void UVrmAudioFreqAnalysis::F2FrequencyAnalysis(TArray<float> FrequenciesToAnalyze,
-	TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies)
+	TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies, USoundSubmix* SubmixToAnalyze)
 {
+	SpectralBandSettings(1000.0f, 3000.0f, F1FrequenciesToAnalyze);
+	GetMagForFreq(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, SubmixToAnalyze);
+	MakeFreqMagMap(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, F1FrequencyMagnitudeMap);
 }
 
 //
@@ -181,13 +185,18 @@ void UVrmAudioFreqAnalysis::GetMagForFreq(const TArray<float>& FrequenciesToAnal
 	Magnitudes = MagnitudesOfFrequencies;
 }
 
-
-
-
-
-
-
-
+void UVrmAudioFreqAnalysis::MakeFreqMagMap(TArray<float>& FrequenciesToAnalyze, TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap)
+{
+	//range based for loop
+	for (const float& FrequencyValue : FrequenciesToAnalyze)
+	{
+		//return the current index of the frequency array and get the corresponding in dex in the magnitudes array
+		FrequencyMagnitudeMap.Add(MagnitudesOfFrequencies[FrequenciesToAnalyze.Find(FrequencyValue)], FrequencyValue);
+	}
+}
+//
+//
+//
 
 
 // Called when the game starts
