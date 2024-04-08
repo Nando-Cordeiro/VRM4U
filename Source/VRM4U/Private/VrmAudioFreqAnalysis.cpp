@@ -6,8 +6,8 @@
 #include "AudioMixerBlueprintLibrary.h"
 #include "Animation/SkeletalMeshActor.h"
 #include "Components/AudioComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Sound/SoundSubmix.h"
-
 
 DEFINE_LOG_CATEGORY_STATIC(LogVrmAudioFreqAnalysis, Log, All);
 
@@ -70,6 +70,8 @@ void UVrmAudioFreqAnalysis::OnAudioPlayStateChanged(EAudioComponentPlayState Pla
 		case PlayState == EAudioComponentPlayState::FadingOut:
 			UE_LOG(LogVrmAudioFreqAnalysis, Verbose,TEXT("AudioComponent is fading out"));
 			break;
+		default: 
+			UE_LOG(LogVrmAudioFreqAnalysis, Error, TEXT("AudioComponent is in an unknown state"));
 	}
 }
 
@@ -116,7 +118,7 @@ void UVrmAudioFreqAnalysis::EnvelopeChunkIndexComparison() const
 	if (EnvelopeChunk[4] > EnvelopeChunk[0]) {
 		CounterFunction(ClosedCounter, OpenCounter, OpenCounterThreshold);
 		// Begin F group comparison after this
-		FGroupAnalysis(OurSubmix);
+		FGroupAnalysis(OurSubmix, PercentRange);
 	} else if (EnvelopeChunk[4] == EnvelopeChunk[0]) {
 		UE_LOG(LogVrmAudioFreqAnalysis, Verbose,TEXT("Envelope Chunk Index 4 is equal to Index 0"));
 	} else {
@@ -143,12 +145,13 @@ void UVrmAudioFreqAnalysis::SetMorphTargetsClosed() const
 	}
 }
 
-void UVrmAudioFreqAnalysis::FGroupAnalysis(USoundSubmix* SubmixToAnalyze)
+void UVrmAudioFreqAnalysis::FGroupAnalysis(USoundSubmix* SubmixToAnalyze, const float PercentRange)
 {
 	// remember to clear everything of all arrays too
 	F1FrequencyAnalysis(F1FrequenciesToAnalyze, F1MagnitudesOfFrequencies, F1LargestFrequencies, SubmixToAnalyze);
 	F2FrequencyAnalysis(F2FrequenciesToAnalyze, F2MagnitudesOfFrequencies, SubmixToAnalyze);
 	// whatever's in the collapsed graph goes here
+	SetMorphTargetValue(PercentRange, F1, F2);
 }
 
 void UVrmAudioFreqAnalysis::F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze,
@@ -216,10 +219,71 @@ void UVrmAudioFreqAnalysis::SetF2Value(const TArray<float>& MagnitudesOfFrequenc
 {
 	F2 = FrequencyMagnitudeMap[FMath::Max(MagnitudesOfFrequencies)];
 }
+//
+//
+//
 
-//
-//
-//
+void UVrmAudioFreqAnalysis::SetMorphTargetValue(const float PercentRange, const float F1Value, const float F2Value)
+{
+	//create a range based for loop for morph target names
+	for (const FName& MorphTargetName : MouthMorphTargetNames)
+	{
+		switch (MorphTargetName)
+		{
+			case MorphTargetName == FName("Fcl_MTH_A"):
+				AddToMorphTargetMap(PercentRange, F1, F2, 775.0f, 1200.0f, MorphTargetName);
+				break;
+			case MorphTargetName == FName("Fcl_MTH_E"):
+				AddToMorphTargetMap(PercentRange, F1, F2, 575.0f, 1850.0f, MorphTargetName);
+				break;
+			case MorphTargetName == FName("Fcl_MTH_I"):
+				AddToMorphTargetMap(PercentRange, F1, F2, 300.0f, 2350.0f, MorphTargetName);
+				break;
+			case MorphTargetName == FName("Fcl_MTH_O"):
+				AddToMorphTargetMap(PercentRange, F1, F2, 400.0f, 700.0f, MorphTargetName);
+				break;
+			case MorphTargetName == FName("Fcl_MTH_U"):
+				AddToMorphTargetMap(PercentRange, F1, F2, 300.0f, 750.0f, MorphTargetName);
+				break;
+			default: 
+				UE_LOG(LogVrmAudioFreqAnalysis, Error, TEXT("Morph Target Name not found"));
+		}
+	}
+	//over here you finally do the actual set morph target function for the skeletal mesh
+}
+
+void UVrmAudioFreqAnalysis::AddToMorphTargetMap(const float PercentRange, const float F1Value, const float F2Value, const float F1Target, const float F2Target, FName MorphTargetName)
+{
+	const float Value = CreateFRangeAndCheck(PercentRange, F1Value, F1Target) + CreateFRangeAndCheck(PercentRange, F2Value, F2Target);
+	MorphTargetValues.Add(MorphTargetName, UKismetMathLibrary::MapRangeClamped(Value, 0.0f, 2.0f, 0.0f, 1.0f));
+}
+
+float UVrmAudioFreqAnalysis::CreateFRangeAndCheck(const float PercentRange, const float FValue, const float FTarget)
+{
+	const float Min = FTarget - (FTarget * PercentRange);
+	const float Max = FTarget + (FTarget * PercentRange);
+
+	//divide the value by the target, if it's greater than 1.0f
+	//then return 1.0f, else return 2 minus the value
+	float RangeFloat;
+	
+	if (const float ValueOverTarget = FValue / FTarget; ValueOverTarget > 1.0f)
+	{
+		 RangeFloat = 1.0f;
+	}
+	else
+	{
+		 RangeFloat = 2.0f - ValueOverTarget;
+	}
+	
+	if (UKismetMathLibrary::InRange_FloatFloat(FValue, Min, Max, true, true))
+	{
+		return RangeFloat;
+	}
+	return 0.0f;
+}
+
+
 
 
 // Called when the game starts

@@ -40,8 +40,8 @@ public:
 	static TArray<float> EnvelopeChunk;
 	inline static const TArray<FName> MouthMorphTargetNames = { FName("Fcl_MTH_A"), FName("Fcl_MTH_E"), FName("Fcl_MTH_I"), FName("Fcl_MTH_O"), FName("Fcl_MTH_U") };
 
-	 void EnvelopeChunkIndexComparison() const;
-	 void CounterFunction(int OppositeCounter, int CurrentCounter, int CurrentCounterThreshold) const;
+	void EnvelopeChunkIndexComparison() const;
+	void CounterFunction(int OppositeCounter, int CurrentCounter, int CurrentCounterThreshold) const;
 	void SetMorphTargetsClosed() const;
 
 	static TArray<float> F1FrequenciesToAnalyze;
@@ -54,16 +54,17 @@ public:
 	static TArray<float> F2MagnitudesOfFrequencies;
 	static TMap<float, float> F2FrequencyMagnitudeMap;
 	static float F2;
+
+	static TMap<FName, float> MorphTargetValues;
 	
 	//Make a TArray of TArray<float>
 	// maybe not needed
 	static TArray<TArray<float>> ArrayOfF1F2Arrays;
 
 	// This is the "sequence node" in the BP graph
-	static void FGroupAnalysis(USoundSubmix* SubmixToAnalyze);
+	static void FGroupAnalysis(USoundSubmix* SubmixToAnalyze, const float PercentRange);
 	static void F1FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies, TArray<float> LargestFrequencies, USoundSubmix* SubmixToAnalyze);
 	static void F2FrequencyAnalysis(TArray<float> FrequenciesToAnalyze, TArray<float> MagnitudesOfFrequencies,  USoundSubmix* SubmixToAnalyze);
-	// whatever's in the collapsed graph goes here
 	
 	// Operations that will be done during each F Analysis
 	static void SpectralBandSettings(float InMinFreq, float InMaxFreq, TArray<float>& FrequenciesToAnalyze);
@@ -71,6 +72,13 @@ public:
 	static void MakeFreqMagMap(TArray<float>& FrequenciesToAnalyze, TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap);
 	static void SetF1Value(TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap);
 	static void SetF2Value(const TArray<float>& MagnitudesOfFrequencies, TMap<float, float>& FrequencyMagnitudeMap);
+
+	// whatever's in the collapsed graph goes here
+	static void SetMorphTargetValue(const float PercentRange, const float F1Value, const float F2Value);
+	static void AddToMorphTargetMap(const float PercentRange, float F1Value, float F2Value, const float F1Target, const float F2Target, FName MorphTargetName);
+	static float CreateFRangeAndCheck(float
+		 PercentRange, float FValue, float FTarget);
+	
 
 	
 protected:
