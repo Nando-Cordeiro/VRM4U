@@ -52,6 +52,8 @@ public:
 	int GetMatCullMode(int matNo) const;
 	int GetMatZWrite(int matNo) const;
 
+	int GetThumbnailTextureIndex() const;
+
 	bool GetMatParam(VRM::VRMMaterial &m, int matNo) const;
 
 
@@ -142,6 +144,8 @@ public:
 		bool IsRemoveDegenerateTriangles() const;
 
 		void ClearModelType();
+
+		bool IsUE5Material() const;
 
 		bool IsVRMModel() const;
 		bool IsVRM0Model() const;

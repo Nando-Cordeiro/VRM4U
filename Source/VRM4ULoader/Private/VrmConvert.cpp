@@ -482,6 +482,11 @@ bool VRMConverter::Options::IsRemoveDegenerateTriangles() const {
 	return ImportOption->bRemoveDegenerateTriangles;
 }
 
+bool VRMConverter::Options::IsUE5Material() const {
+	if (ImportOption == nullptr) return false;
+	return ImportOption->bUseUE5Material;
+}
+
 static bool bbVRM0 = false;
 static bool bbVRM10 = false;
 void VRMConverter::Options::SetVRM0Model(bool bVRM) {
@@ -672,6 +677,23 @@ static void copyVector(VRM::vec4 &v, const T1& t) {
 	} else {
 		v[3] = 1.f;
 	}
+}
+
+int VRMConverter::GetThumbnailTextureIndex() const {
+
+	if (VRMConverter::Options::Get().IsVRM0Model()) {
+		return -1;
+	}
+	auto& meta = jsonData.doc["extensions"]["VRMC_vrm"]["meta"];
+	for (auto m = meta.MemberBegin(); m != meta.MemberEnd(); ++m) {
+
+		FString key = UTF8_TO_TCHAR((*m).name.GetString());
+
+		if (key == "thumbnailImage") {
+			return (*m).value.GetInt();
+		}
+	}
+	return -1;
 }
 
 bool VRMConverter::GetMatParam(VRM::VRMMaterial &m, int matNo) const {
