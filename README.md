@@ -1,9 +1,17 @@
-# VRM4U
+# Procedural Mouth Animator for VRM4U
+
+https://github.com/Nando-Cordeiro/VRM4U/assets/103462917/edd46e92-7d2d-4119-9687-27ac4c44a7e5
+
+This fork adds a procedural mouth animation utility for morph targets on VRM skeletal meshes. It makes use of various submix analysis functions included in Unreal Engine. Because it analyzes the formants that are most present in speech, this solution is language agnostic, creates convincing mouth shapes for vowel sounds, and correctly closes the mouth at each syllable.
+
+
+
+
+## Description
 Runtime VRM loader for UnrealEngine4
 
 **For packaging, please download from UnrealEngine_VRM4UPlugin repository.**
 
-## Description
 VRM4U is importer for VRM.
 Also it can load models on runtime.
 
